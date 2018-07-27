@@ -35,14 +35,16 @@ public class ClienteResource {
 		
 		boolean isPresent = clientes.findByCpf(cliente.getCpf()).isPresent();
 		
-		if(isPresent) {
+		if(isPresent)
 			return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
-		}
 		
 		cliente = clientes.save(cliente);
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{codigo}")
-				.buildAndExpand(cliente.getCodigo()).toUri();
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{codigo}")
+				.buildAndExpand(cliente.getCodigo())
+				.toUri();
 		
 		return ResponseEntity.created(uri).build();
 	}
