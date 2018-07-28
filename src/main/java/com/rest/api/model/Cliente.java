@@ -1,7 +1,12 @@
 package com.rest.api.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.hibernate.validator.constraints.Length;
@@ -13,7 +18,10 @@ public class Cliente extends Pessoa {
 	@Column(unique = true, nullable = false)
 	@Length(min = 11, max = 11)
 	private String cpf;
-
+	
+	@OneToMany(mappedBy = "cliente", targetEntity = Animal.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Animal> listaAnimais;
+	
 	public Cliente() {
 		super();
 	}

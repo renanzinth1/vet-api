@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rest.api.model.Animal;
-import com.rest.api.model.Cliente;
 import com.rest.api.repository.IAnimais;
 
 @RestController
@@ -32,7 +31,7 @@ public class AnimalResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Animal> salvar(@RequestBody Animal animal) {
+	public ResponseEntity<Void> salvar(@RequestBody Animal animal) {
 		animal = new Animal(null, animal.getNome(), animal.getDataNascimento(), animal.getSexo());
 
 		animal = animais.save(animal);
@@ -42,7 +41,7 @@ public class AnimalResource {
 				.path("/{codigo}")
 				.buildAndExpand(animal.getCodigo()).toUri();
 				
-		return ResponseEntity.created(uri).body(animal);
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@GetMapping(value = "/{nome}")
