@@ -27,7 +27,18 @@ public class AnimalResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Animal>> listar() {
-		return new ResponseEntity<List<Animal>>(animais.findAll(), HttpStatus.OK);
+		return ResponseEntity.ok(animais.findAll());
+	}
+	
+	@GetMapping(value = "/{nome}")
+	public ResponseEntity<Animal> buscarPorNome(@PathVariable("nome") String nome) {
+		
+		Optional<Animal> animal = animais.findByNome(nome);
+		
+		if(animal.isPresent())
+			return ResponseEntity.ok(animal.get());
+		
+		return ResponseEntity.notFound().build();
 	}
 	
 	@PostMapping
@@ -41,17 +52,6 @@ public class AnimalResource {
 				.buildAndExpand(animal.getCodigo()).toUri();
 				
 		return ResponseEntity.created(uri).build();
-	}
-	
-	@GetMapping(value = "/{nome}")
-	public ResponseEntity<?> buscarPorNome(@PathVariable("nome") String nome) {
-		
-		Optional<Animal> animal = animais.findByNome(nome);
-		
-		if(animal.isPresent())
-			return ResponseEntity.status(HttpStatus.OK).body(animal);
-		
-		return ResponseEntity.notFound().build();
 	}
 
 }
