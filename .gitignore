@@ -18,6 +18,9 @@
 
 .sts4-cache
 
+application.properties
+
+*.properties
 
 
 ### IntelliJ IDEA ###
