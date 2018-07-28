@@ -32,8 +32,7 @@ public class AnimalResource {
 	
 	@PostMapping
 	public ResponseEntity<Void> salvar(@RequestBody Animal animal) {
-		animal = new Animal(null, animal.getNome(), animal.getDataNascimento(), animal.getSexo());
-
+		
 		animal = animais.save(animal);
 		
 		URI uri = ServletUriComponentsBuilder

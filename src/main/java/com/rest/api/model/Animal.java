@@ -35,19 +35,20 @@ public class Animal {
 	private SexoAnimal sexo;
 	
 	@ManyToOne
-	@JoinColumn(name = "cliente_id")
+	@JoinColumn(name = "codigo_cliente")
 	private Cliente cliente;
 
 	public Animal() {
 		super();
 	}
 	
-	public Animal(Long codigo, String nome, Calendar dataNascimento, SexoAnimal sexo) {
+	public Animal(Long codigo, String nome, Calendar dataNascimento, SexoAnimal sexo, Cliente cliente) {
 		super();
 		this.codigo = codigo;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.sexo = sexo;
+		this.cliente = cliente;
 	}
 	
 	public Long getCodigo() {
@@ -76,5 +77,13 @@ public class Animal {
 
 	public void setSexo(SexoAnimal sexo) {
 		this.sexo = sexo;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 }
