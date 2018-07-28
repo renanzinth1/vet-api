@@ -27,7 +27,18 @@ public class ClienteResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Cliente>> listar() {
-		return new ResponseEntity<List<Cliente>>(clientes.findAll(), HttpStatus.OK);
+		return ResponseEntity.ok(clientes.findAll());
+	}
+	
+	@GetMapping(value = "/{cpf}")
+	public ResponseEntity<Cliente> buscarPorCpf(@PathVariable("cpf") String cpf) {
+		
+		Optional<Cliente> cliente = clientes.findByCpf(cpf);
+		
+		if(cliente.isPresent())
+			return ResponseEntity.ok(cliente.get());
+		
+		return ResponseEntity.notFound().build();
 	}
 	
 	@PostMapping
@@ -47,17 +58,6 @@ public class ClienteResource {
 				.toUri();
 		
 		return ResponseEntity.created(uri).build();
-	}
-	
-	@GetMapping(value = "/{cpf}")
-	public ResponseEntity<?> buscarPorCpf(@PathVariable("cpf") String cpf) {
-		
-		Optional<Cliente> cliente = clientes.findByCpf(cpf);
-		
-		if(cliente.isPresent())
-			return ResponseEntity.status(HttpStatus.OK).body(cliente);
-		
-		return ResponseEntity.notFound().build();
 	}
 
 }

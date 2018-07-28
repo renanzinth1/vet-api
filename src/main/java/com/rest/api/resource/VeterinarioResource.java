@@ -25,7 +25,7 @@ public class VeterinarioResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Veterinario>> listar() {
-		return new ResponseEntity<List<Veterinario>>(veterinarios.findAll(), HttpStatus.OK);
+		return ResponseEntity.ok(veterinarios.findAll());
 	}
 	
 	@PostMapping

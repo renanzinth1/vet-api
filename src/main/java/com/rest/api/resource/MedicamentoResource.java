@@ -25,7 +25,7 @@ public class MedicamentoResource {
 
 	@GetMapping
 	public ResponseEntity<List<Medicamento>> listar() {
-		return new ResponseEntity<List<Medicamento>>(medicamentos.findAll(), HttpStatus.OK);
+		return ResponseEntity.ok(medicamentos.findAll());
 	}
 	
 	@PostMapping
@@ -44,6 +44,6 @@ public class MedicamentoResource {
 				.buildAndExpand(medicamento.getCodigo())
 				.toUri();
 		
-			return ResponseEntity.created(uri).build();
+		return ResponseEntity.created(uri).build();
 	}
 }
