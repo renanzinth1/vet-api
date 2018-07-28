@@ -32,8 +32,9 @@ public class AnimalResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> salvar(@RequestBody Animal animal) {
-		
+	public ResponseEntity<Animal> salvar(@RequestBody Animal animal) {
+		animal = new Animal(null, animal.getNome(), animal.getDataNascimento(), animal.getSexo());
+
 		animal = animais.save(animal);
 		
 		URI uri = ServletUriComponentsBuilder
@@ -41,7 +42,7 @@ public class AnimalResource {
 				.path("/{codigo}")
 				.buildAndExpand(animal.getCodigo()).toUri();
 				
-		return ResponseEntity.created(uri).build();
+		return ResponseEntity.created(uri).body(animal);
 	}
 	
 	@GetMapping(value = "/{nome}")
