@@ -8,4 +8,6 @@ import com.rest.api.model.Animal;
 
 public interface IAnimais extends JpaRepository<Animal, Long> {
 
+	Optional<Animal> findByNome(String nome);
+
 }
