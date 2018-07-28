@@ -19,7 +19,7 @@ public class Cliente extends Pessoa {
 	@Length(min = 11, max = 11)
 	private String cpf;
 	
-	@OneToMany(mappedBy = "cliente", targetEntity = Animal.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cliente", targetEntity = Animal.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Animal> listaAnimais;
 	
 	public Cliente() {
