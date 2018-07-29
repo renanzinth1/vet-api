@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,11 +32,9 @@ public class MedicamentoResource {
 	
 	@PostMapping
 	public ResponseEntity<Void> salvar(@RequestBody Medicamento medicamento) {
-		medicamento.setCodigo(null);
-		boolean isPresent = medicamentos.findByNome(medicamento.getNome()).isPresent();
 		
-		if(isPresent)
-			return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
+		if(medicamentos.existsByNome(medicamento.getNome()))
+			return ResponseEntity.status(302).build();
 			
 		medicamento = medicamentos.save(medicamento);
 		

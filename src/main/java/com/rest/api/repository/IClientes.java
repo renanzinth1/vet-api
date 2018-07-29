@@ -10,4 +10,6 @@ public interface IClientes extends JpaRepository<Cliente, Long> {
 	
 	//@Query(value = "SELECT * FROM Clientes c WHERE c.cpf = ?1", nativeQuery = true)
 	public Optional<Cliente> findByCpf(String cpf);
+
+	public boolean existsByCpf(String cpf);
 }

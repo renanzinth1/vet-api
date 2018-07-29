@@ -33,11 +33,9 @@ public class VeterinarioResource {
 	
 	@PostMapping
 	public ResponseEntity<Void> salvar(@RequestBody Veterinario veterinario) {
-		veterinario.setCodigo(null);
-		boolean isPresent = veterinarios.findByCfmv(veterinario.getCfmv()).isPresent();
 		
-		if(isPresent)
-			return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
+		if(veterinarios.existsByCfmv(veterinario.getCfmv()))
+			return ResponseEntity.status(302).build();
 		
 		veterinario = veterinarios.save(veterinario);
 		

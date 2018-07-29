@@ -9,4 +9,6 @@ import com.rest.api.model.Medicamento;
 public interface IMedicamento extends JpaRepository<Medicamento, Long> {
 	
 	public Optional<Medicamento> findByNome(String nome);
+
+	public boolean existsByNome(String nome);
 }

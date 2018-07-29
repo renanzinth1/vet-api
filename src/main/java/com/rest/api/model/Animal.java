@@ -15,12 +15,15 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity(name = "Animais")
 public class Animal {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CODIGO_ANIMAL")
 	@SequenceGenerator(name = "CODIGO_ANIMAL", sequenceName = "SEQ_CODIGO_ANIMAL", allocationSize = 1)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long codigo;
 	
 	@Column(nullable = false)

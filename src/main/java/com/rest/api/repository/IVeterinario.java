@@ -10,4 +10,6 @@ public interface IVeterinario extends JpaRepository<Veterinario, Long> {
 
 	public Optional<Veterinario> findByCfmv(String cfmv);
 
+	public boolean existsByCfmv(String cfmv);
+
 }

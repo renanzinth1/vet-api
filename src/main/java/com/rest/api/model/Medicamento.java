@@ -7,12 +7,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity(name = "Medicamentos")
 public class Medicamento {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CODIGO_MEDICAMENTO")
 	@SequenceGenerator(name = "CODIGO_MEDICAMENTO", sequenceName = "SEQ_CODIGO_MEDICAMENTO", allocationSize = 1)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long codigo;
 	
 	@Column(unique = true, nullable = false)
