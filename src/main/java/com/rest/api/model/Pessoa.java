@@ -15,8 +15,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Entity(name = "Pessoas")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa {
@@ -24,7 +22,6 @@ public class Pessoa {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CODIGO_PESSOA")
 	@SequenceGenerator(name = "CODIGO_PESSOA", sequenceName = "SEQ_CODIGO_PESSOA", allocationSize = 1)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long codigo;
 	
 	@Column(nullable = false)
