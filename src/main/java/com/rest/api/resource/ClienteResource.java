@@ -46,7 +46,7 @@ public class ClienteResource {
 	public ResponseEntity<Void> salvar(@RequestBody Cliente cliente) {
 		
 		if(clientes.existsByCpf(cliente.getCpf()))
-			return ResponseEntity.status(302).build();
+			return ResponseEntity.status(400).build();
 		
 		cliente = clientes.save(cliente);
 		

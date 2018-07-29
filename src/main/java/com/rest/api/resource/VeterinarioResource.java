@@ -35,7 +35,7 @@ public class VeterinarioResource {
 	public ResponseEntity<Void> salvar(@RequestBody Veterinario veterinario) {
 		
 		if(veterinarios.existsByCfmv(veterinario.getCfmv()))
-			return ResponseEntity.status(302).build();
+			return ResponseEntity.status(400).build();
 		
 		veterinario = veterinarios.save(veterinario);
 		

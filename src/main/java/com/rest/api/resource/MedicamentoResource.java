@@ -34,7 +34,7 @@ public class MedicamentoResource {
 	public ResponseEntity<Void> salvar(@RequestBody Medicamento medicamento) {
 		
 		if(medicamentos.existsByNome(medicamento.getNome()))
-			return ResponseEntity.status(302).build();
+			return ResponseEntity.status(400).build();
 			
 		medicamento = medicamentos.save(medicamento);
 		
