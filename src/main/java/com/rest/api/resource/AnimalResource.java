@@ -31,15 +31,20 @@ public class AnimalResource {
 		return ResponseEntity.ok(animais.findAll());
 	}
 	
-	@GetMapping(value = "/{nome}")
-	public ResponseEntity<Animal> buscarPorNome(@PathVariable("nome") String nome) {
+	@GetMapping(value = "/{codigo}")
+	public ResponseEntity<Animal> buscar(@PathVariable("codigo") Long codigo) {
 		
-		Optional<Animal> animal = animais.findByNome(nome);
+		Optional<Animal> animal = animais.findById(codigo);
 		
 		if(animal.isPresent())
 			return ResponseEntity.ok(animal.get());
 		
 		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping(value = "/nome/{nome}")
+	public ResponseEntity<List<Animal>> buscarPorNome(@PathVariable("nome") String nome) {
+		return ResponseEntity.ok(animais.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome));
 	}
 	
 	@PostMapping

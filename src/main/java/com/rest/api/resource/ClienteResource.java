@@ -31,7 +31,18 @@ public class ClienteResource {
 		return ResponseEntity.ok(clientes.findAll());
 	}
 	
-	@GetMapping(value = "/{cpf}")
+	@GetMapping(value = "/{codigo}")
+	public ResponseEntity<Cliente> buscar(@PathVariable("codigo") Long codigo) {
+		
+		Optional<Cliente> cliente = clientes.findById(codigo);
+		
+		if(cliente.isPresent())
+			return ResponseEntity.ok(cliente.get());
+		
+		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping(value = "/cpf/{cpf}")
 	public ResponseEntity<Cliente> buscarPorCpf(@PathVariable("cpf") String cpf) {
 		
 		Optional<Cliente> cliente = clientes.findByCpf(cpf);
@@ -42,11 +53,16 @@ public class ClienteResource {
 		return ResponseEntity.notFound().build();
 	}
 	
+	@GetMapping(value = "/nome/{nome}")
+	public ResponseEntity<List<Cliente>> buscarPorNome(@PathVariable("nome") String nome){
+		return ResponseEntity.ok(clientes.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome));
+	}
+	
 	@PostMapping
 	public ResponseEntity<Void> salvar(@RequestBody Cliente cliente) {
 		
 		if(clientes.existsByCpf(cliente.getCpf()))
-			return ResponseEntity.status(400).build();
+			return ResponseEntity.badRequest().build();
 		
 		cliente = clientes.save(cliente);
 		

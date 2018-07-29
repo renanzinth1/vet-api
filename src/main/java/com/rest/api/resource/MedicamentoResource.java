@@ -2,6 +2,7 @@ package com.rest.api.resource;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,22 @@ public class MedicamentoResource {
 	@GetMapping
 	public ResponseEntity<List<Medicamento>> listar() {
 		return ResponseEntity.ok(medicamentos.findAll());
+	}
+	
+	@GetMapping(value = "/{codigo}")
+	public ResponseEntity<Medicamento> buscar(@PathVariable("codigo") Long codigo) {
+		
+		Optional<Medicamento> medicamento = medicamentos.findById(codigo);
+		
+		if(medicamento.isPresent())
+			return ResponseEntity.ok(medicamento.get());
+		
+		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping(value = "/nome/{nome}")
+	public ResponseEntity<List<Medicamento>> buscarPorNome(@PathVariable("nome") String nome){
+		return ResponseEntity.ok(medicamentos.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome));
 	}
 	
 	@PostMapping
