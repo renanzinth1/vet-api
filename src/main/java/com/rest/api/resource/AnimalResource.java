@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,7 +44,7 @@ public class AnimalResource {
 	
 	@PostMapping
 	public ResponseEntity<Void> salvar(@RequestBody Animal animal) {
-		
+		animal.setCodigo(null);
 		animal = animais.save(animal);
 		
 		URI uri = ServletUriComponentsBuilder
@@ -52,6 +53,24 @@ public class AnimalResource {
 				.buildAndExpand(animal.getCodigo()).toUri();
 				
 		return ResponseEntity.created(uri).build();
+	}
+	
+	@PutMapping(value= "/{codigo}")
+	public ResponseEntity<Animal> editar(@PathVariable("codigo") Long codigo, @RequestBody Animal animal){
+		if(animais.existsById(codigo)) {
+			animal.setCodigo(codigo);
+			return ResponseEntity.accepted().body(animais.save(animal));
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
+	@DeleteMapping(value="/{codigo}")
+	public ResponseEntity<Void> excluir(@PathVariable("codigo") Long codigo){
+		if(animais.existsById(codigo)) {
+			animais.deleteById(codigo);
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 }

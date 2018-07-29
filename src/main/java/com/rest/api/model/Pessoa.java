@@ -58,6 +58,10 @@ public class Pessoa {
 		return codigo;
 	}
 
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
+
 	public String getNome() {
 		return nome;
 	}
