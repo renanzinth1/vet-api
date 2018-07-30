@@ -43,8 +43,8 @@ public class MedicamentoResource {
 	}
 	
 	@GetMapping(value = "/nome/{nome}")
-	public ResponseEntity<List<Medicamento>> buscarPorNome(@PathVariable("nome") String nome){
-		return ResponseEntity.ok(medicamentos.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome));
+	public List<Medicamento> buscarPorNome(@PathVariable("nome") String nome){
+		return medicamentos.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
 	}
 	
 	@PostMapping

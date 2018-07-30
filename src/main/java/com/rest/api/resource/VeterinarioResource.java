@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.rest.api.model.Cliente;
 import com.rest.api.model.Veterinario;
 import com.rest.api.repository.IVeterinario;
 
@@ -55,8 +54,8 @@ public class VeterinarioResource {
 	}
 	
 	@GetMapping(value = "/nome/{nome}")
-	public ResponseEntity<List<Veterinario>> buscarPorNome(@PathVariable("nome") String nome){
-		return ResponseEntity.ok(veterinarios.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome));
+	public List<Veterinario> buscarPorNome(@PathVariable("nome") String nome){
+		return veterinarios.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
 	}
 	
 	@PostMapping

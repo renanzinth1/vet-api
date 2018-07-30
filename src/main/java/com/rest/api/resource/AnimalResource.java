@@ -43,8 +43,8 @@ public class AnimalResource {
 	}
 	
 	@GetMapping(value = "/nome/{nome}")
-	public ResponseEntity<List<Animal>> buscarPorNome(@PathVariable("nome") String nome) {
-		return ResponseEntity.ok(animais.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome));
+	public List<Animal> buscarPorNome(@PathVariable("nome") String nome) {
+		return animais.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
 	}
 	
 	@PostMapping

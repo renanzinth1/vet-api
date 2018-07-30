@@ -54,8 +54,8 @@ public class ClienteResource {
 	}
 	
 	@GetMapping(value = "/nome/{nome}")
-	public ResponseEntity<List<Cliente>> buscarPorNome(@PathVariable("nome") String nome){
-		return ResponseEntity.ok(clientes.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome));
+	public List<Cliente> buscarPorNome(@PathVariable("nome") String nome){
+		return clientes.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
 	}
 	
 	@PostMapping
