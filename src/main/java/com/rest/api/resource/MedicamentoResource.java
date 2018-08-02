@@ -43,15 +43,21 @@ public class MedicamentoResource {
 	}
 	
 	@GetMapping(value = "/nome/{nome}")
-	public List<Medicamento> buscarPorNome(@PathVariable("nome") String nome){
-		return medicamentos.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
+	public ResponseEntity<List<Medicamento>> buscarPorNome(@PathVariable("nome") String nome){
+		
+		List<Medicamento> listaMedicamento = medicamentos.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
+		
+		if(listaMedicamento.isEmpty())
+			return ResponseEntity.noContent().build();
+		
+		return ResponseEntity.ok(listaMedicamento);
 	}
 	
 	@PostMapping
 	public ResponseEntity<Void> salvar(@RequestBody Medicamento medicamento) {
 		
 		if(medicamentos.existsByNome(medicamento.getNome()))
-			return ResponseEntity.status(400).build();
+			return ResponseEntity.badRequest().build();
 			
 		medicamento = medicamentos.save(medicamento);
 		

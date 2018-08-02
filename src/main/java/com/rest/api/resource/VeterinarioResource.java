@@ -54,8 +54,14 @@ public class VeterinarioResource {
 	}
 	
 	@GetMapping(value = "/nome/{nome}")
-	public List<Veterinario> buscarPorNome(@PathVariable("nome") String nome){
-		return veterinarios.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
+	public ResponseEntity<List<Veterinario>> buscarPorNome(@PathVariable("nome") String nome){
+		
+		List<Veterinario> listaVeterinario = veterinarios.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
+		
+		if(listaVeterinario.isEmpty())
+			return ResponseEntity.noContent().build();
+		
+		return ResponseEntity.ok(listaVeterinario);
 	}
 	
 	@PostMapping

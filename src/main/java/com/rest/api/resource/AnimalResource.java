@@ -43,8 +43,14 @@ public class AnimalResource {
 	}
 	
 	@GetMapping(value = "/nome/{nome}")
-	public List<Animal> buscarPorNome(@PathVariable("nome") String nome) {
-		return animais.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
+	public ResponseEntity<List<Animal>> buscarPorNome(@PathVariable("nome") String nome) {
+		
+		List<Animal> listaAnimal = animais.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
+		
+		if(listaAnimal.isEmpty())
+			return ResponseEntity.noContent().build();
+		
+		return ResponseEntity.ok(listaAnimal);
 	}
 	
 	@PostMapping
@@ -54,7 +60,8 @@ public class AnimalResource {
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{codigo}")
-				.buildAndExpand(animal.getCodigo()).toUri();
+				.buildAndExpand(animal.getCodigo())
+				.toUri();
 				
 		return ResponseEntity.created(uri).build();
 	}
