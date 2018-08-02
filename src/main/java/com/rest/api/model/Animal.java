@@ -35,6 +35,10 @@ public class Animal {
 	private SexoAnimal sexo;
 	
 	@ManyToOne
+	@JoinColumn(name = "codigo_especie")
+	private Especie especie;
+	
+	@ManyToOne
 	@JoinColumn(name = "codigo_cliente")
 	private Cliente cliente;
 
@@ -81,6 +85,14 @@ public class Animal {
 
 	public void setSexo(SexoAnimal sexo) {
 		this.sexo = sexo;
+	}
+
+	public Especie getEspecie() {
+		return especie;
+	}
+
+	public void setEspecie(Especie especie) {
+		this.especie = especie;
 	}
 
 	public Cliente getCliente() {
