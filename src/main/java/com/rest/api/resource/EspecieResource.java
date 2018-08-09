@@ -29,7 +29,13 @@ public class EspecieResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Especie>> listar() {
-		return ResponseEntity.ok(especies.findAll());
+		
+		List<Especie> listaEspecie = especies.findAll();
+		
+		if(listaEspecie.isEmpty())
+			return ResponseEntity.noContent().build();
+		
+		return ResponseEntity.ok(listaEspecie);
 	}
 	
 	@GetMapping(value = "/{codigo}")

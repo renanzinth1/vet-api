@@ -28,7 +28,13 @@ public class SubEspecieResource {
 	
 	@GetMapping
 	public ResponseEntity<List<SubEspecie>> listar() {
-		return ResponseEntity.ok(subespecies.findAll());
+		
+		List<SubEspecie> listaSubEspecie = subespecies.findAll();
+		
+		if(listaSubEspecie.isEmpty())
+			return ResponseEntity.noContent().build();
+		
+		return ResponseEntity.ok(listaSubEspecie);
 	}
 	
 	@GetMapping(value = "/{codigo}")

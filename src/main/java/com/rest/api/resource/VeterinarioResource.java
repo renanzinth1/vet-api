@@ -28,7 +28,13 @@ public class VeterinarioResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Veterinario>> listar() {
-		return ResponseEntity.ok(veterinarios.findAll());
+		
+		List<Veterinario> listaVeterinario = veterinarios.findAll();
+		
+		if(listaVeterinario.isEmpty())
+			return ResponseEntity.noContent().build();
+		
+		return ResponseEntity.ok(listaVeterinario);
 	}
 	
 	@GetMapping(value = "/{codigo}")

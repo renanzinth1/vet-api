@@ -28,7 +28,13 @@ public class ClienteResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Cliente>> listar() {
-		return ResponseEntity.ok(clientes.findAll());
+		
+		List<Cliente> listaCliente = clientes.findAll();
+		
+		if(listaCliente.isEmpty())
+			return ResponseEntity.noContent().build();
+		
+		return ResponseEntity.ok(listaCliente);
 	}
 	
 	@GetMapping(value = "/{codigo}")

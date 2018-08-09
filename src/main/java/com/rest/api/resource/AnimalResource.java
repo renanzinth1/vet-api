@@ -28,7 +28,13 @@ public class AnimalResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Animal>> listar() {
-		return ResponseEntity.ok(animais.findAll());
+		
+		List<Animal> listaAnimal = animais.findAll();
+		
+		if (listaAnimal.isEmpty())
+			return ResponseEntity.noContent().build();
+		
+		return ResponseEntity.ok(listaAnimal);
 	}
 	
 	@GetMapping(value = "/{codigo}")
