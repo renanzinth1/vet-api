@@ -27,7 +27,7 @@ public class Medicamento {
 		this.codigo = codigo;
 		this.nome = nome;
 	}
-	
+
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -43,4 +43,5 @@ public class Medicamento {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 }

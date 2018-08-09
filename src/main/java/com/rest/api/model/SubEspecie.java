@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "Subespecies")
 public class SubEspecie {
 	
@@ -20,8 +22,9 @@ public class SubEspecie {
 	@Column(unique = true, nullable = false)
 	private String nome;
 	
+	//TODO: Problema aqui na hora de slvar por causa do @JsonIgnore na classe Especie
 	@ManyToOne
-	@JoinColumn(name = "codigo_especie")
+	@JoinColumn(name = "codigo_especie", nullable = false)
 	private Especie especie;
 
 	public SubEspecie() {
@@ -51,6 +54,7 @@ public class SubEspecie {
 		this.nome = nome;
 	}
 
+	@JsonIgnore
 	public Especie getEspecie() {
 		return especie;
 	}

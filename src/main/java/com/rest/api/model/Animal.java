@@ -1,5 +1,6 @@
 package com.rest.api.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -14,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "Animais")
 public class Animal {
@@ -45,16 +49,18 @@ public class Animal {
 	public Animal() {
 		super();
 	}
-	
-	public Animal(Long codigo, String nome, Calendar dataNascimento, SexoAnimal sexo, Cliente cliente) {
+
+	public Animal(Long codigo, String nome, Calendar dataNascimento, SexoAnimal sexo, Especie especie,
+			Cliente cliente) {
 		super();
 		this.codigo = codigo;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.sexo = sexo;
+		this.especie = especie;
 		this.cliente = cliente;
 	}
-	
+
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -95,6 +101,8 @@ public class Animal {
 		this.especie = especie;
 	}
 
+	//Ignorado, pois foi usado a anotação @JsonIgnoreProperties("cliente") na classe Cliente
+	//@JsonIgnore
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -102,4 +110,5 @@ public class Animal {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+	
 }

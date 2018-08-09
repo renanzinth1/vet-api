@@ -101,9 +101,5 @@ public class Pessoa {
 	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
-	
-	@Override
-	public String toString() {
-		return super.toString();
-	}
+
 }

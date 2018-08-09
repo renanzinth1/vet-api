@@ -27,5 +27,4 @@ public class Veterinario extends Pessoa {
 	public void setCfmv(String cfmv) {
 		this.cfmv = cfmv;
 	}
-	
 }
