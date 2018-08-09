@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.rest.api.model.Animal;
 import com.rest.api.model.Cliente;
 import com.rest.api.repository.IClientes;
 
@@ -32,7 +33,7 @@ public class ClienteResource {
 		List<Cliente> listaCliente = clientes.findAll();
 		
 		if(listaCliente.isEmpty())
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok(listaCliente);
 	}
@@ -56,6 +57,17 @@ public class ClienteResource {
 		if(cliente.isPresent())
 			return ResponseEntity.ok(cliente.get());
 		
+		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping(value = "/{cpf}/animais")
+	public ResponseEntity<List<Animal>> buscarAnimais(@PathVariable("cpf") String cpf) {
+		
+		if(clientes.existsByCpf(cpf)) {
+			Optional<Cliente> cliente = clientes.findByCpf(cpf);
+			
+			return ResponseEntity.ok(cliente.get().getListaAnimais());
+		}
 		return ResponseEntity.notFound().build();
 	}
 	

@@ -33,7 +33,7 @@ public class EspecieResource {
 		List<Especie> listaEspecie = especies.findAll();
 		
 		if(listaEspecie.isEmpty())
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok(listaEspecie);
 	}
@@ -94,9 +94,9 @@ public class EspecieResource {
 		if(especies.existsById(codigo)) {
 			especies.deleteById(codigo);
 			
-			//Conversar c o Jardel se a resposta do HTTP é esta mesmo...
 			return ResponseEntity.noContent().build();
 		}
+		
 		return ResponseEntity.notFound().build();
 	}
 

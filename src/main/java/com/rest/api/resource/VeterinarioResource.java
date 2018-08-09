@@ -32,7 +32,7 @@ public class VeterinarioResource {
 		List<Veterinario> listaVeterinario = veterinarios.findAll();
 		
 		if(listaVeterinario.isEmpty())
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok(listaVeterinario);
 	}

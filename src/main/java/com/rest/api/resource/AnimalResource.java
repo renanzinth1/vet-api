@@ -32,7 +32,7 @@ public class AnimalResource {
 		List<Animal> listaAnimal = animais.findAll();
 		
 		if (listaAnimal.isEmpty())
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok(listaAnimal);
 	}
