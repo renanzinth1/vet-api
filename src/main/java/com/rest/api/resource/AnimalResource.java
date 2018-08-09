@@ -68,6 +68,7 @@ public class AnimalResource {
 	
 	@PutMapping(value= "/{codigo}")
 	public ResponseEntity<Animal> editar(@PathVariable("codigo") Long codigo, @RequestBody Animal animal){
+		
 		if(animais.existsById(codigo)) {
 			animal.setCodigo(codigo);
 			return ResponseEntity.accepted().body(animais.save(animal));
