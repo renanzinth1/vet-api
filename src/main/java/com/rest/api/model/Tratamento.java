@@ -13,33 +13,30 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-@Entity(name = "Medicamentos")
-public class Medicamento {
+@Entity(name = "Tratamentos")
+public class Tratamento {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CODIGO_MEDICAMENTO")
-	@SequenceGenerator(name = "CODIGO_MEDICAMENTO", sequenceName = "SEQ_CODIGO_MEDICAMENTO", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CODIGO_TRATAMENTO")
+	@SequenceGenerator(name = "CODIGO_TRATAMENTO", sequenceName = "SEQ_CODIGO_TRATAMENTO", allocationSize = 1)
 	private Long codigo;
 	
-	@Column(unique = true, nullable = false)
-	private String nome;
+	@Column
+	private String resumo;
 	
-	@JsonIgnoreProperties("medicamento")
-	@JsonProperty(access = Access.WRITE_ONLY)
-	@OneToMany(mappedBy = "medicamento", targetEntity = Medicacao.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("tratamento")
+	@OneToMany(mappedBy = "tratamento", targetEntity = Medicacao.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Medicacao> listaMedicacoes;
 
-	public Medicamento() {
+	public Tratamento() {
 		super();
 	}
 
-	public Medicamento(Long codigo, String nome, List<Medicacao> listaMedicacoes) {
+	public Tratamento(Long codigo, String resumo, List<Medicacao> listaMedicacoes) {
 		super();
 		this.codigo = codigo;
-		this.nome = nome;
+		this.resumo = resumo;
 		this.listaMedicacoes = listaMedicacoes;
 	}
 
@@ -51,12 +48,12 @@ public class Medicamento {
 		this.codigo = codigo;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getResumo() {
+		return resumo;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setResumo(String resumo) {
+		this.resumo = resumo;
 	}
 
 	public List<Medicacao> getListaMedicacoes() {
@@ -83,7 +80,7 @@ public class Medicamento {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Medicamento other = (Medicamento) obj;
+		Tratamento other = (Tratamento) obj;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
