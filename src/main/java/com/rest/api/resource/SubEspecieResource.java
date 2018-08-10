@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rest.api.model.SubEspecie;
-import com.rest.api.repository.ISubEspecies;
+import com.rest.api.repository.ISubEspecie;
 
 @RestController
 @RequestMapping("/subespecies")
 public class SubEspecieResource {
 	
 	@Autowired
-	private ISubEspecies subespecies;
+	private ISubEspecie subespecies;
 	
 	@GetMapping
 	public ResponseEntity<List<SubEspecie>> listar() {

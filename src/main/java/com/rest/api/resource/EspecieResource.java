@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rest.api.model.Especie;
+import com.rest.api.model.SubEspecie;
 import com.rest.api.repository.IEspecie;
+import com.rest.api.repository.ISubEspecie;
 
 @RestController
 @RequestMapping("/especies")
@@ -26,6 +27,9 @@ public class EspecieResource {
 	
 	@Autowired
 	private IEspecie especies;
+	
+	@Autowired
+	private ISubEspecie subEspecies;
 	
 	@GetMapping
 	public ResponseEntity<List<Especie>> listar() {
@@ -46,6 +50,34 @@ public class EspecieResource {
 		if(especie.isPresent())
 			return ResponseEntity.ok(especie.get());
 		
+		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping(value = "/{codigo}/subEspecies")
+	public ResponseEntity<List<SubEspecie>> buscarAnimais(@PathVariable("codigo") Long codigo) {
+		
+		if(especies.existsById(codigo)) {
+			Optional<Especie> especie = especies.findById(codigo);
+			
+			return ResponseEntity.ok(especie.get().getListaSubEspecies());
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping(value = "/{codigo}/subEspecies/{codigoSubEspecie}")
+	public ResponseEntity<SubEspecie> buscarAnimal(@PathVariable("codigo") Long codigo, @PathVariable("codigoSubEspecie") Long codigoSubEspecie) {
+		
+		if(especies.existsById(codigo)) {
+			Optional<Especie> especie = especies.findById(codigo);
+			
+			Optional<SubEspecie> subEspecie = subEspecies.findById(codigoSubEspecie);
+			
+			if(subEspecie.isPresent()) {
+				if(especie.get().getListaSubEspecies().contains(subEspecie.get())) {
+					return ResponseEntity.ok(subEspecie.get());
+				}
+			}
+		}
 		return ResponseEntity.notFound().build();
 	}
 	

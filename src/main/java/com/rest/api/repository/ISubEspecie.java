@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.rest.api.model.SubEspecie;
 
-public interface ISubEspecies extends JpaRepository<SubEspecie, Long> {
+public interface ISubEspecie extends JpaRepository<SubEspecie, Long> {
 
 	public List<SubEspecie> findAllByNomeContainingIgnoreCaseOrderByNomeAsc(String nome);
 
