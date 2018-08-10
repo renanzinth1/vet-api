@@ -9,8 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity(name = "Subespecies")
 public class SubEspecie {
 	
@@ -22,7 +20,6 @@ public class SubEspecie {
 	@Column(unique = true, nullable = false)
 	private String nome;
 	
-	//TODO: Problema aqui na hora de slvar por causa do @JsonIgnore na classe Especie
 	@ManyToOne
 	@JoinColumn(name = "codigo_especie", nullable = false)
 	private Especie especie;
@@ -54,7 +51,6 @@ public class SubEspecie {
 		this.nome = nome;
 	}
 
-	@JsonIgnore
 	public Especie getEspecie() {
 		return especie;
 	}
@@ -62,4 +58,30 @@ public class SubEspecie {
 	public void setEspecie(Especie especie) {
 		this.especie = especie;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SubEspecie other = (SubEspecie) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
+	}
+	
 }

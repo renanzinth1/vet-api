@@ -11,8 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity(name = "Especies")
 public class Especie {
@@ -25,7 +25,8 @@ public class Especie {
 	@Column(unique = true, nullable = false)
 	private String nome;
 	
-	@JsonIgnoreProperties("especie")
+	// Ignorar a lista de SubEspecie na hora da listagem
+	@JsonProperty(access = Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "especie", targetEntity = SubEspecie.class, fetch = FetchType.LAZY)
 	private List<SubEspecie> listaSubEspecies;
 
@@ -62,6 +63,31 @@ public class Especie {
 
 	public void setListaSubEspecies(List<SubEspecie> listaSubEspecies) {
 		this.listaSubEspecies = listaSubEspecies;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Especie other = (Especie) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.rest.api.model;
 
-import java.io.Serializable;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -16,8 +15,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity(name = "Animais")
 public class Animal {
@@ -43,6 +42,7 @@ public class Animal {
 	private Especie especie;
 	
 	@ManyToOne
+	@JsonProperty(access = Access.WRITE_ONLY)
 	@JoinColumn(name = "codigo_cliente")
 	private Cliente cliente;
 
@@ -101,14 +101,37 @@ public class Animal {
 		this.especie = especie;
 	}
 
-	//Ignorado, pois foi usado a anotação @JsonIgnoreProperties("cliente") na classe Cliente
-	//@JsonIgnore
 	public Cliente getCliente() {
 		return cliente;
 	}
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Animal other = (Animal) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
 	}
 	
 }

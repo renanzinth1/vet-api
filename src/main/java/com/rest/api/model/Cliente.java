@@ -1,6 +1,5 @@
 package com.rest.api.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,8 +11,9 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity(name = "Clientes")
 @PrimaryKeyJoinColumn(name = "codigo_pessoa")
@@ -26,6 +26,8 @@ public class Cliente extends Pessoa {
 	//Foi usado essa anotação para ignorar o atributo do cliente
 	//quando for retornar os clientes e seus respectivos animais.
 	@JsonIgnoreProperties("cliente")
+	//// Ignorar a lista de Animais na hora da listagem
+	@JsonProperty(access = Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "cliente", targetEntity = Animal.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Animal> listaAnimais;
 	
@@ -54,4 +56,5 @@ public class Cliente extends Pessoa {
 	public void setListaAnimais(List<Animal> listaAnimais) {
 		this.listaAnimais = listaAnimais;
 	}
+	
 }

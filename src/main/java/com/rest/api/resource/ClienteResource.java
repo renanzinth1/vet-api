@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rest.api.model.Animal;
 import com.rest.api.model.Cliente;
+import com.rest.api.repository.IAnimais;
 import com.rest.api.repository.IClientes;
 
 @RestController
@@ -26,6 +27,9 @@ public class ClienteResource {
 	
 	@Autowired
 	private IClientes clientes;
+	
+	@Autowired
+	private IAnimais animais;
 	
 	@GetMapping
 	public ResponseEntity<List<Cliente>> listar() {
@@ -49,6 +53,34 @@ public class ClienteResource {
 		return ResponseEntity.notFound().build();
 	}
 	
+	@GetMapping(value = "/{codigo}/animais")
+	public ResponseEntity<List<Animal>> buscarAnimais(@PathVariable("codigo") Long codigo) {
+		
+		if(clientes.existsById(codigo)) {
+			Optional<Cliente> cliente = clientes.findById(codigo);
+			
+			return ResponseEntity.ok(cliente.get().getListaAnimais());
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping(value = "/{codigo}/animais/{codigoAnimal}")
+	public ResponseEntity<Animal> buscarAnimal(@PathVariable("codigo") Long codigo, @PathVariable("codigoAnimal") Long codigoAnimal) {
+		
+		if(clientes.existsById(codigo)) {
+			Optional<Cliente> cliente = clientes.findById(codigo);
+			
+			Optional<Animal> animal = animais.findById(codigoAnimal);
+			
+			if(animal.isPresent()) {
+				if(cliente.get().getListaAnimais().contains(animal.get())) {
+					return ResponseEntity.ok(animal.get());
+				}
+			}
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
 	@GetMapping(value = "/cpf/{cpf}")
 	public ResponseEntity<Cliente> buscarPorCpf(@PathVariable("cpf") String cpf) {
 		
@@ -57,17 +89,6 @@ public class ClienteResource {
 		if(cliente.isPresent())
 			return ResponseEntity.ok(cliente.get());
 		
-		return ResponseEntity.notFound().build();
-	}
-	
-	@GetMapping(value = "/{cpf}/animais")
-	public ResponseEntity<List<Animal>> buscarAnimais(@PathVariable("cpf") String cpf) {
-		
-		if(clientes.existsByCpf(cpf)) {
-			Optional<Cliente> cliente = clientes.findByCpf(cpf);
-			
-			return ResponseEntity.ok(cliente.get().getListaAnimais());
-		}
 		return ResponseEntity.notFound().build();
 	}
 	
