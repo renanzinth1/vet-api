@@ -2,6 +2,7 @@ package com.rest.api.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -27,7 +30,7 @@ public class Especie {
 	
 	// Ignorar a lista de SubEspecie na hora da listagem
 	@JsonProperty(access = Access.WRITE_ONLY)
-	@OneToMany(mappedBy = "especie", targetEntity = SubEspecie.class, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "especie", targetEntity = SubEspecie.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<SubEspecie> listaSubEspecies;
 
 	public Especie() {

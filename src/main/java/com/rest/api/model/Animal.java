@@ -38,8 +38,8 @@ public class Animal {
 	private SexoAnimal sexo;
 	
 	@ManyToOne
-	@JoinColumn(name = "codigo_especie")
-	private Especie especie;
+	@JoinColumn(name = "codigo_subEspecie")
+	private SubEspecie subEspecie;
 	
 	@ManyToOne
 	@JsonProperty(access = Access.WRITE_ONLY)
@@ -50,14 +50,14 @@ public class Animal {
 		super();
 	}
 
-	public Animal(Long codigo, String nome, Calendar dataNascimento, SexoAnimal sexo, Especie especie,
+	public Animal(Long codigo, String nome, Calendar dataNascimento, SexoAnimal sexo, SubEspecie subEspecie,
 			Cliente cliente) {
 		super();
 		this.codigo = codigo;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.sexo = sexo;
-		this.especie = especie;
+		this.subEspecie = subEspecie;
 		this.cliente = cliente;
 	}
 
@@ -93,12 +93,12 @@ public class Animal {
 		this.sexo = sexo;
 	}
 
-	public Especie getEspecie() {
-		return especie;
+	public SubEspecie getSubEspecie() {
+		return subEspecie;
 	}
 
-	public void setEspecie(Especie especie) {
-		this.especie = especie;
+	public void setSubEspecie(SubEspecie subEspecie) {
+		this.subEspecie = subEspecie;
 	}
 
 	public Cliente getCliente() {
