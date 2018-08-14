@@ -26,7 +26,7 @@ public class Cliente extends Pessoa {
 	//Foi usado essa anotação para ignorar o atributo do cliente
 	//quando for retornar os clientes e seus respectivos animais.
 	@JsonIgnoreProperties("cliente")
-	//// Ignorar a lista de Animais na hora da listagem
+	// Ignorar a lista de Animais na hora da listagem
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "cliente", targetEntity = Animal.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Animal> listaAnimais;
@@ -35,7 +35,7 @@ public class Cliente extends Pessoa {
 		super();
 	}
 
-	public Cliente(@Length(min = 11, max = 11) String cpf, List<Animal> listaAnimais) {
+	public Cliente(String cpf, List<Animal> listaAnimais) {
 		super();
 		this.cpf = cpf;
 		this.listaAnimais = listaAnimais;

@@ -1,6 +1,6 @@
 package com.rest.api.model;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,9 +32,8 @@ public class Pessoa {
 	
 	private String telefone;
 	
-	@Temporal(TemporalType.DATE)
 	@Column(name = "data_nascimento")
-	private Calendar dataNascimento;
+	private LocalDate dataNascimento;
 	
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -44,7 +43,7 @@ public class Pessoa {
 		super();
 	}
 
-	public Pessoa(Long codigo, String nome, String sobrenome, String telefone, Calendar dataNascimento, Sexo sexo) {
+	public Pessoa(Long codigo, String nome, String sobrenome, String telefone, LocalDate dataNascimento, Sexo sexo) {
 		super();
 		this.codigo = codigo;
 		this.nome = nome;
@@ -86,11 +85,11 @@ public class Pessoa {
 		this.telefone = telefone;
 	}
 
-	public Calendar getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Calendar dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 

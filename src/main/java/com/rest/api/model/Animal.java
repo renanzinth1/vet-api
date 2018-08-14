@@ -1,6 +1,6 @@
 package com.rest.api.model;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,9 +29,8 @@ public class Animal {
 	@Column(nullable = false)
 	private String nome;
 	
-	@Temporal(TemporalType.DATE)
 	@Column(name = "data_nascimento")
-	private Calendar dataNascimento;
+	private LocalDate dataNascimento;
 	
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -50,7 +49,7 @@ public class Animal {
 		super();
 	}
 
-	public Animal(Long codigo, String nome, Calendar dataNascimento, SexoAnimal sexo, SubEspecie subEspecie,
+	public Animal(Long codigo, String nome, LocalDate dataNascimento, SexoAnimal sexo, SubEspecie subEspecie,
 			Cliente cliente) {
 		super();
 		this.codigo = codigo;
@@ -77,11 +76,11 @@ public class Animal {
 		this.nome = nome;
 	}
 
-	public Calendar getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Calendar dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
