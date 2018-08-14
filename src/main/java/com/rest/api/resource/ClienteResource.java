@@ -18,18 +18,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rest.api.model.Animal;
 import com.rest.api.model.Cliente;
-import com.rest.api.repository.IAnimais;
-import com.rest.api.repository.IClientes;
+import com.rest.api.repository.IAnimal;
+import com.rest.api.repository.ICliente;
 
 @RestController
 @RequestMapping("/clientes")
 public class ClienteResource {
 	
 	@Autowired
-	private IClientes clientes;
+	private ICliente clientes;
 	
 	@Autowired
-	private IAnimais animais;
+	private IAnimal animais;
 	
 	@GetMapping
 	public ResponseEntity<List<Cliente>> listar() {
@@ -122,8 +122,10 @@ public class ClienteResource {
 	
 	@PutMapping(value = "/{codigo}")
 	public ResponseEntity<Cliente> editar(@PathVariable("codigo") Long codigo, @RequestBody Cliente cliente){
+		
 		if(clientes.existsById(codigo)) {
 			cliente.setCodigo(codigo);
+			
 			return ResponseEntity.accepted().body(clientes.save(cliente));
 		}
 		return ResponseEntity.notFound().build();
@@ -131,8 +133,10 @@ public class ClienteResource {
 	
 	@DeleteMapping(value="/{codigo}")
 	public ResponseEntity<Void> excluir(@PathVariable("codigo") Long codigo){
+		
 		if(clientes.existsById(codigo)) {
 			clientes.deleteById(codigo);
+			
 			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.notFound().build();

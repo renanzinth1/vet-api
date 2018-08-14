@@ -17,9 +17,6 @@ public class Medicacao {
 	@SequenceGenerator(name = "CODIGO_MEDICACAO", sequenceName = "SEQ_CODIGO_MEDICACAO", allocationSize = 1)
 	private Long codigo;
 	
-	@Column(columnDefinition = "NUMERIC(6,1)")
-	private float dosagem;
-	
 	@ManyToOne
 	@JoinColumn(name = "codigo_tratamento")
 	private Tratamento tratamento;
@@ -27,6 +24,9 @@ public class Medicacao {
 	@ManyToOne
 	@JoinColumn(name = "codigo_medicamento")
 	private Medicamento medicamento;
+	
+	@Column(nullable = true, columnDefinition = "NUMERIC(6,1)")
+	private float dosagem;
 
 	public Medicacao() {
 		super();

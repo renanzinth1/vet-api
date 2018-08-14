@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rest.api.model.Animal;
-import com.rest.api.repository.IAnimais;
+import com.rest.api.repository.IAnimal;
 
 @RestController
 @RequestMapping("/animais")
 public class AnimalResource {
 	
 	@Autowired
-	private IAnimais animais;
+	private IAnimal animais;
 	
 	@GetMapping
 	public ResponseEntity<List<Animal>> listar() {

@@ -9,10 +9,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity(name = "Tratamentos")
 public class Tratamento {
@@ -22,8 +28,13 @@ public class Tratamento {
 	@SequenceGenerator(name = "CODIGO_TRATAMENTO", sequenceName = "SEQ_CODIGO_TRATAMENTO", allocationSize = 1)
 	private Long codigo;
 	
-	@Column
+	@Column(nullable = false)
+	@Length(min = 15, max = 300)
 	private String resumo;
+	
+	@ManyToOne
+	@JoinColumn(name = "codigo_consulta")
+	private Consulta consulta;
 	
 	@JsonIgnoreProperties("tratamento")
 	@OneToMany(mappedBy = "tratamento", targetEntity = Medicacao.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
