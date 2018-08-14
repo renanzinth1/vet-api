@@ -54,7 +54,7 @@ public class EspecieResource {
 	}
 	
 	@GetMapping(value = "/{codigo}/subEspecies")
-	public ResponseEntity<List<SubEspecie>> buscarAnimais(@PathVariable("codigo") Long codigo) {
+	public ResponseEntity<List<SubEspecie>> buscarSubEspecies(@PathVariable("codigo") Long codigo) {
 		
 		if(especies.existsById(codigo)) {
 			Optional<Especie> especie = especies.findById(codigo);
@@ -65,7 +65,7 @@ public class EspecieResource {
 	}
 	
 	@GetMapping(value = "/{codigo}/subEspecies/{codigoSubEspecie}")
-	public ResponseEntity<SubEspecie> buscarAnimal(@PathVariable("codigo") Long codigo, @PathVariable("codigoSubEspecie") Long codigoSubEspecie) {
+	public ResponseEntity<SubEspecie> buscarSubEspecie(@PathVariable("codigo") Long codigo, @PathVariable("codigoSubEspecie") Long codigoSubEspecie) {
 		
 		if(especies.existsById(codigo)) {
 			Optional<Especie> especie = especies.findById(codigo);
