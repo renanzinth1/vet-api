@@ -36,9 +36,6 @@ public class EspecieResource {
 		
 		List<Especie> listaEspecie = especies.findAll();
 		
-		if(listaEspecie.isEmpty())
-			return ResponseEntity.notFound().build();
-		
 		return ResponseEntity.ok(listaEspecie);
 	}
 	

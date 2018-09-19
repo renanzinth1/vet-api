@@ -31,9 +31,6 @@ public class MedicamentoResource {
 		
 		List<Medicamento> listaMedicamento = medicamentos.findAll();
 		
-		if(listaMedicamento.isEmpty())
-			return ResponseEntity.notFound().build();
-		
 		return ResponseEntity.ok(listaMedicamento);
 	}
 	

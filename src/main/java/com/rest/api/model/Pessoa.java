@@ -36,14 +36,13 @@ public class Pessoa {
 	private LocalDate dataNascimento;
 	
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private Sexo sexo;
+	private String sexo;
 	
 	public Pessoa() {
 		super();
 	}
 
-	public Pessoa(Long codigo, String nome, String sobrenome, String telefone, LocalDate dataNascimento, Sexo sexo) {
+	public Pessoa(Long codigo, String nome, String sobrenome, String telefone, LocalDate dataNascimento, String sexo) {
 		super();
 		this.codigo = codigo;
 		this.nome = nome;
@@ -93,11 +92,11 @@ public class Pessoa {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public Sexo getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(Sexo sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
 

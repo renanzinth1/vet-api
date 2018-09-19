@@ -36,9 +36,6 @@ public class ConsultaResource {
 		
 		List<Consulta> listaConsulta = consultas.findAll();
 		
-		if(listaConsulta.isEmpty())
-			return ResponseEntity.notFound().build();
-		
 		return ResponseEntity.ok(listaConsulta);
 	}
 	

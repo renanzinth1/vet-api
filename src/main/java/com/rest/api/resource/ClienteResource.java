@@ -36,9 +36,6 @@ public class ClienteResource {
 		
 		List<Cliente> listaCliente = clientes.findAll();
 		
-		if(listaCliente.isEmpty())
-			return ResponseEntity.notFound().build();
-		
 		return ResponseEntity.ok(listaCliente);
 	}
 	

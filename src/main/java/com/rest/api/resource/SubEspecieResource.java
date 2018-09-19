@@ -31,9 +31,6 @@ public class SubEspecieResource {
 		
 		List<SubEspecie> listaSubEspecie = subespecies.findAll();
 		
-		if(listaSubEspecie.isEmpty())
-			return ResponseEntity.notFound().build();
-		
 		return ResponseEntity.ok(listaSubEspecie);
 	}
 	

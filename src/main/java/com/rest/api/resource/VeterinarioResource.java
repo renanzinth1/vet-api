@@ -31,9 +31,6 @@ public class VeterinarioResource {
 		
 		List<Veterinario> listaVeterinario = veterinarios.findAll();
 		
-		if(listaVeterinario.isEmpty())
-			return ResponseEntity.notFound().build();
-		
 		return ResponseEntity.ok(listaVeterinario);
 	}
 	
