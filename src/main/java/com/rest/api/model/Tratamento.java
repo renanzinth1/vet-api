@@ -17,8 +17,6 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity(name = "Tratamentos")
 public class Tratamento {

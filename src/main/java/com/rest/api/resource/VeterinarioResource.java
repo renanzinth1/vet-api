@@ -22,80 +22,91 @@ import com.rest.api.repository.IVeterinario;
 @RestController
 @RequestMapping("/veterinarios")
 public class VeterinarioResource {
-	
+
 	@Autowired
 	private IVeterinario veterinarios;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Veterinario>> listar() {
-		
+
 		List<Veterinario> listaVeterinario = veterinarios.findAll();
-		
+
 		return ResponseEntity.ok(listaVeterinario);
 	}
-	
+
 	@GetMapping(value = "/{codigo}")
 	public ResponseEntity<Veterinario> buscar(@PathVariable("codigo") Long codigo) {
-		
+
 		Optional<Veterinario> veterinario = veterinarios.findById(codigo);
-		
-		if(veterinario.isPresent())
+
+		if (veterinario.isPresent())
 			return ResponseEntity.ok(veterinario.get());
-		
+
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@GetMapping(value = "/cfmv/{cfmv}")
 	public ResponseEntity<Veterinario> buscarPorCfmv(@PathVariable("cfmv") String cfmv) {
-		
+
 		Optional<Veterinario> veterinario = veterinarios.findByCfmv(cfmv);
-		
-		if(veterinario.isPresent())
+
+		if (veterinario.isPresent())
 			return ResponseEntity.ok(veterinario.get());
-		
+
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@GetMapping(value = "/nome/{nome}")
-	public ResponseEntity<List<Veterinario>> buscarPorNome(@PathVariable("nome") String nome){
-		
+	public ResponseEntity<List<Veterinario>> buscarPorNome(@PathVariable("nome") String nome) {
+
 		List<Veterinario> listaVeterinario = veterinarios.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
-		
-		if(listaVeterinario.isEmpty())
+
+		if (listaVeterinario.isEmpty())
 			return ResponseEntity.noContent().build();
-		
+
 		return ResponseEntity.ok(listaVeterinario);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<Void> salvar(@RequestBody Veterinario veterinario) {
-		
-		if(veterinarios.existsByCfmv(veterinario.getCfmv()))
+
+		if (veterinarios.existsByCfmv(veterinario.getCfmv()))
 			return ResponseEntity.badRequest().build();
-		
-		veterinario = veterinarios.save(veterinario);
-		
-		URI uri = ServletUriComponentsBuilder
-				.fromCurrentRequest()
-				.pathSegment("/{cfmv}")
-				.buildAndExpand(veterinario.getCodigo())
-				.toUri();
-		
-		return ResponseEntity.created(uri).build();
+
+		if (veterinario.getCfmv().length() == 4) {
+			veterinario = veterinarios.save(veterinario);
+
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().pathSegment("/{cfmv}")
+					.buildAndExpand(veterinario.getCodigo()).toUri();
+
+			return ResponseEntity.created(uri).build();
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
 	}
-	
+
 	@PutMapping(value = "/{codigo}")
-	public ResponseEntity<Veterinario> editar(@PathVariable("codigo") Long codigo, @RequestBody Veterinario veterinario){
-		if(veterinarios.existsById(codigo)) {
-			veterinario.setCodigo(codigo);
-			return ResponseEntity.accepted().body(veterinarios.save(veterinario));
+	public ResponseEntity<Veterinario> editar(@PathVariable("codigo") Long codigo,
+			@RequestBody Veterinario veterinario) {
+
+		if (veterinarios.existsByCfmv(veterinario.getCfmv()))
+			return ResponseEntity.badRequest().build();
+
+		if (veterinarios.existsById(codigo)) {
+			if (veterinario.getCfmv().length() == 4) {
+				veterinario.setCodigo(codigo);
+				
+				return ResponseEntity.accepted().body(veterinarios.save(veterinario));
+			} else {
+				return ResponseEntity.badRequest().build();
+			}
 		}
 		return ResponseEntity.notFound().build();
 	}
-	
-	@DeleteMapping(value="/{codigo}")
-	public ResponseEntity<Void> excluir(@PathVariable("codigo") Long codigo){
-		if(veterinarios.existsById(codigo)) {
+
+	@DeleteMapping(value = "/{codigo}")
+	public ResponseEntity<Void> excluir(@PathVariable("codigo") Long codigo) {
+		if (veterinarios.existsById(codigo)) {
 			veterinarios.deleteById(codigo);
 			return ResponseEntity.noContent().build();
 		}

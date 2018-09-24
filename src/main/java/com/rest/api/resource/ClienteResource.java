@@ -24,116 +24,126 @@ import com.rest.api.repository.ICliente;
 @RestController
 @RequestMapping("/clientes")
 public class ClienteResource {
-	
+
 	@Autowired
 	private ICliente clientes;
-	
+
 	@Autowired
 	private IAnimal animais;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Cliente>> listar() {
-		
+
 		List<Cliente> listaCliente = clientes.findAll();
-		
+
 		return ResponseEntity.ok(listaCliente);
 	}
-	
+
 	@GetMapping(value = "/{codigo}")
 	public ResponseEntity<Cliente> buscar(@PathVariable("codigo") Long codigo) {
-		
+
 		Optional<Cliente> cliente = clientes.findById(codigo);
-		
-		if(cliente.isPresent())
+
+		if (cliente.isPresent())
 			return ResponseEntity.ok(cliente.get());
-		
+
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@GetMapping(value = "/{codigo}/animais")
 	public ResponseEntity<List<Animal>> buscarAnimais(@PathVariable("codigo") Long codigo) {
-		
-		if(clientes.existsById(codigo)) {
+
+		if (clientes.existsById(codigo)) {
 			Optional<Cliente> cliente = clientes.findById(codigo);
-			
+
 			return ResponseEntity.ok(cliente.get().getListaAnimais());
 		}
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@GetMapping(value = "/{codigo}/animais/{codigoAnimal}")
-	public ResponseEntity<Animal> buscarAnimal(@PathVariable("codigo") Long codigo, @PathVariable("codigoAnimal") Long codigoAnimal) {
-		
-		if(clientes.existsById(codigo)) {
+	public ResponseEntity<Animal> buscarAnimal(@PathVariable("codigo") Long codigo,
+			@PathVariable("codigoAnimal") Long codigoAnimal) {
+
+		if (clientes.existsById(codigo)) {
 			Optional<Cliente> cliente = clientes.findById(codigo);
-			
+
 			Optional<Animal> animal = animais.findById(codigoAnimal);
-			
-			if(animal.isPresent()) {
-				if(cliente.get().getListaAnimais().contains(animal.get())) {
+
+			if (animal.isPresent()) {
+				if (cliente.get().getListaAnimais().contains(animal.get())) {
 					return ResponseEntity.ok(animal.get());
 				}
 			}
 		}
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@GetMapping(value = "/cpf/{cpf}")
 	public ResponseEntity<Cliente> buscarPorCpf(@PathVariable("cpf") String cpf) {
-		
+
 		Optional<Cliente> cliente = clientes.findByCpf(cpf);
-		
-		if(cliente.isPresent())
+
+		if (cliente.isPresent())
 			return ResponseEntity.ok(cliente.get());
-		
+
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@GetMapping(value = "/nome/{nome}")
-	public ResponseEntity<List<Cliente>> buscarPorNome(@PathVariable("nome") String nome){
-		
+	public ResponseEntity<List<Cliente>> buscarPorNome(@PathVariable("nome") String nome) {
+
 		List<Cliente> listaCliente = clientes.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
-		
-		if(listaCliente.isEmpty())
+
+		if (listaCliente.isEmpty())
 			return ResponseEntity.noContent().build();
-		
+
 		return ResponseEntity.ok(listaCliente);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<Void> salvar(@RequestBody Cliente cliente) {
-		
-		if(clientes.existsByCpf(cliente.getCpf()))
+
+		if (clientes.existsByCpf(cliente.getCpf()))
 			return ResponseEntity.badRequest().build();
-		
-		cliente = clientes.save(cliente);
-		
-		URI uri = ServletUriComponentsBuilder
-				.fromCurrentRequest()
-				.path("/{codigo}")
-				.buildAndExpand(cliente.getCodigo())
-				.toUri();
-		
-		return ResponseEntity.created(uri).build();
-	}
-	
-	@PutMapping(value = "/{codigo}")
-	public ResponseEntity<Cliente> editar(@PathVariable("codigo") Long codigo, @RequestBody Cliente cliente){
-		
-		if(clientes.existsById(codigo)) {
-			cliente.setCodigo(codigo);
-			
-			return ResponseEntity.accepted().body(clientes.save(cliente));
+
+		if (cliente.getCpf().length() == 11) {
+			cliente = clientes.save(cliente);
+
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{codigo}")
+					.buildAndExpand(cliente.getCodigo()).toUri();
+
+			return ResponseEntity.created(uri).build();
+		} else {
+			return ResponseEntity.badRequest().build();
 		}
+	}
+
+	@PutMapping(value = "/{codigo}")
+	public ResponseEntity<Cliente> editar(@PathVariable("codigo") Long codigo, @RequestBody Cliente cliente) {
+
+		if (clientes.existsByCpf(cliente.getCpf()))
+			return ResponseEntity.badRequest().build();
+
+		if (clientes.existsById(codigo)) {
+			if (cliente.getCpf().length() == 11) {
+				cliente.setCodigo(codigo);
+				
+				return ResponseEntity.accepted().body(clientes.save(cliente));
+			} else {
+				return ResponseEntity.badRequest().build();
+			}
+		}
+
 		return ResponseEntity.notFound().build();
 	}
-	
-	@DeleteMapping(value="/{codigo}")
-	public ResponseEntity<Void> excluir(@PathVariable("codigo") Long codigo){
-		
-		if(clientes.existsById(codigo)) {
+
+	@DeleteMapping(value = "/{codigo}")
+	public ResponseEntity<Void> excluir(@PathVariable("codigo") Long codigo) {
+
+		if (clientes.existsById(codigo)) {
 			clientes.deleteById(codigo);
-			
+
 			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.notFound().build();

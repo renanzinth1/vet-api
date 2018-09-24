@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity(name = "Pessoas")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -36,13 +34,14 @@ public class Pessoa {
 	private LocalDate dataNascimento;
 	
 	@Column(nullable = false)
-	private String sexo;
+	@Enumerated(EnumType.STRING)
+	private Sexo sexo;
 	
 	public Pessoa() {
 		super();
 	}
 
-	public Pessoa(Long codigo, String nome, String sobrenome, String telefone, LocalDate dataNascimento, String sexo) {
+	public Pessoa(Long codigo, String nome, String sobrenome, String telefone, LocalDate dataNascimento, Sexo sexo) {
 		super();
 		this.codigo = codigo;
 		this.nome = nome;
@@ -92,11 +91,11 @@ public class Pessoa {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public String getSexo() {
+	public Sexo getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(String sexo) {
+	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
 
