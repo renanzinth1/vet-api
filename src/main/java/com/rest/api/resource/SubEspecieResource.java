@@ -20,7 +20,7 @@ import com.rest.api.model.SubEspecie;
 import com.rest.api.repository.ISubEspecie;
 
 @RestController
-@RequestMapping("/subespecies")
+@RequestMapping("/subEspecies")
 public class SubEspecieResource {
 	
 	@Autowired
@@ -74,7 +74,7 @@ public class SubEspecieResource {
 	}
 	
 	@PutMapping(value = "/{codigo}")
-	public ResponseEntity<SubEspecie> editar(@PathVariable("codigo") Long codigo, SubEspecie subespecie) {
+	public ResponseEntity<SubEspecie> editar(@PathVariable("codigo") Long codigo, @RequestBody SubEspecie subespecie) {
 		
 		if(subespecies.existsById(codigo)) {
 			subespecie.setCodigo(codigo);
