@@ -13,9 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 @Entity(name = "Animais")
 public class Animal {
 
@@ -39,7 +36,7 @@ public class Animal {
 	private SubEspecie subEspecie;
 	
 	@ManyToOne
-	@JsonProperty(access = Access.WRITE_ONLY)
+	//@JsonProperty(access = Access.WRITE_ONLY)
 	@JoinColumn(name = "codigo_cliente")
 	private Cliente cliente;
 
