@@ -18,34 +18,32 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rest.api.model.Medicacao;
 import com.rest.api.model.Medicamento;
+import com.rest.api.model.Tratamento;
 import com.rest.api.repository.IMedicacao;
-import com.rest.api.repository.IMedicamento;
+import com.rest.api.repository.ITratamento;
 
 @RestController
-@RequestMapping("/medicamentos")
-public class MedicamentoResource {
+@RequestMapping("/tratamentos")
+public class TratamentoResource {
 	
 	@Autowired
-	private IMedicamento medicamentos;
+	private ITratamento tratamentos;
 	
 	@Autowired
 	private IMedicacao medicacoes;
-
+	
 	@GetMapping
-	public ResponseEntity<List<Medicamento>> listar() {
-		
-		List<Medicamento> listaMedicamento = medicamentos.findAll();
-		
-		return ResponseEntity.ok(listaMedicamento);
+	public ResponseEntity<List<Tratamento>> listar() {
+		return ResponseEntity.ok(tratamentos.findAll());
 	}
 	
 	@GetMapping(value = "/{codigo}")
-	public ResponseEntity<Medicamento> buscar(@PathVariable("codigo") Long codigo) {
+	public ResponseEntity<Tratamento> buscar(@PathVariable("codigo") Long codigo) {
 		
-		Optional<Medicamento> medicamento = medicamentos.findById(codigo);
+		Optional<Tratamento> tratamento = tratamentos.findById(codigo);
 		
-		if(medicamento.isPresent())
-			return ResponseEntity.ok(medicamento.get());
+		if(tratamento.isPresent())
+			return ResponseEntity.ok(tratamento.get());
 		
 		return ResponseEntity.notFound().build();
 	}
@@ -53,10 +51,10 @@ public class MedicamentoResource {
 	@GetMapping(value = "/{codigo}/medicacoes")
 	public ResponseEntity<List<Medicacao>> buscarMedicacoes(@PathVariable("codigo") Long codigo) {
 
-		if (medicamentos.existsById(codigo)) {
-			Optional<Medicamento> medicamento = medicamentos.findById(codigo);
+		if (tratamentos.existsById(codigo)) {
+			Optional<Tratamento> tratamento = tratamentos.findById(codigo);
 
-			return ResponseEntity.ok(medicamento.get().getListaMedicacoes());
+			return ResponseEntity.ok(tratamento.get().getListaMedicacoes());
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -65,13 +63,13 @@ public class MedicamentoResource {
 	public ResponseEntity<Medicacao> buscarMedicacao(@PathVariable("codigo") Long codigo,
 			@PathVariable("codigoMedicacao") Long codigoMedicacao) {
 
-		if (medicamentos.existsById(codigo)) {
-			Optional<Medicamento> medicamento = medicamentos.findById(codigo);
+		if (tratamentos.existsById(codigo)) {
+			Optional<Tratamento> tratamento = tratamentos.findById(codigo);
 
 			Optional<Medicacao> medicacao = medicacoes.findById(codigoMedicacao);
 
 			if (medicacao.isPresent()) {
-				if (medicamento.get().getListaMedicacoes().contains(medicacao.get())) {
+				if (tratamento.get().getListaMedicacoes().contains(medicacao.get())) {
 					return ResponseEntity.ok(medicacao.get());
 				}
 			}
@@ -79,49 +77,33 @@ public class MedicamentoResource {
 		return ResponseEntity.notFound().build();
 	}
 	
-	@GetMapping(value = "/nome/{nome}")
-	public ResponseEntity<List<Medicamento>> buscarPorNome(@PathVariable("nome") String nome){
-		
-		List<Medicamento> listaMedicamento = medicamentos.findAllByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
-		
-		if(listaMedicamento.isEmpty())
-			return ResponseEntity.noContent().build();
-		
-		return ResponseEntity.ok(listaMedicamento);
-	}
-	
 	@PostMapping
-	public ResponseEntity<Void> salvar(@RequestBody Medicamento medicamento) {
-		
-		if(medicamentos.existsByNome(medicamento.getNome()))
-			return ResponseEntity.badRequest().build();
+	public ResponseEntity<Void> salvar(@RequestBody Tratamento tratamento) {
 			
-		medicamento = medicamentos.save(medicamento);
+		tratamento = tratamentos.save(tratamento);
 		
-		URI uri = ServletUriComponentsBuilder
-				.fromCurrentRequest()
-				.path("/{codigo}")
-				.buildAndExpand(medicamento.getCodigo())
-				.toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{codigo}")
+				.buildAndExpand(tratamento.getCodigo()).toUri();
 		
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@PutMapping(value = "/{codigo}")
-	public ResponseEntity<Medicamento> editar(@PathVariable("codigo") Long codigo, @RequestBody Medicamento medicamento){
-		if(medicamentos.existsById(codigo)) {
-			medicamento.setCodigo(codigo);
-			return ResponseEntity.accepted().body(medicamentos.save(medicamento));
+	public ResponseEntity<Tratamento> editar(@PathVariable("codigo") Long codigo, @RequestBody Tratamento tratamento){
+		if(tratamentos.existsById(codigo)) {
+			tratamento.setCodigo(codigo);
+			return ResponseEntity.accepted().body(tratamentos.save(tratamento));
 		}
 		return ResponseEntity.notFound().build();
 	}
 	
 	@DeleteMapping(value="/{codigo}")
 	public ResponseEntity<Void> excluir(@PathVariable("codigo") Long codigo){
-		if(medicamentos.existsById(codigo)) {
-			medicamentos.deleteById(codigo);
+		if(tratamentos.existsById(codigo)) {
+			tratamentos.deleteById(codigo);
 			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.notFound().build();
 	}
+
 }
