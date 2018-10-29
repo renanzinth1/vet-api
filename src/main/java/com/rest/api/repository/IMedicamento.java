@@ -14,4 +14,8 @@ public interface IMedicamento extends JpaRepository<Medicamento, Long> {
 	public boolean existsByNome(String nome);
 
 	public List<Medicamento> findAllByNomeContainingIgnoreCaseOrderByNomeAsc(String nome);
+	
+	public List<Medicamento> findAllByOrderByCodigoAsc();
+	
+	public List<Medicamento> findAllByOrderByNomeAsc();
 }

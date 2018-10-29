@@ -29,7 +29,7 @@ public class AnimalResource {
 	@GetMapping
 	public ResponseEntity<List<Animal>> listar() {
 		
-		List<Animal> listaAnimal = animais.findAll();
+		List<Animal> listaAnimal = animais.findAllByOrderByNomeAsc();
 		
 		return ResponseEntity.ok(listaAnimal);
 	}

@@ -34,7 +34,7 @@ public class MedicamentoResource {
 	@GetMapping
 	public ResponseEntity<List<Medicamento>> listar() {
 		
-		List<Medicamento> listaMedicamento = medicamentos.findAll();
+		List<Medicamento> listaMedicamento = medicamentos.findAllByOrderByNomeAsc();
 		
 		return ResponseEntity.ok(listaMedicamento);
 	}

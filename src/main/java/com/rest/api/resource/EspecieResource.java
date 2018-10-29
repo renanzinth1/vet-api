@@ -34,7 +34,7 @@ public class EspecieResource {
 	@GetMapping
 	public ResponseEntity<List<Especie>> listar() {
 		
-		List<Especie> listaEspecie = especies.findAll();
+		List<Especie> listaEspecie = especies.findAllByOrderByNomeAsc();
 		
 		return ResponseEntity.ok(listaEspecie);
 	}

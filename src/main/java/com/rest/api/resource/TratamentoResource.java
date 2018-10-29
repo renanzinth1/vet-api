@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rest.api.model.Medicacao;
-import com.rest.api.model.Medicamento;
 import com.rest.api.model.Tratamento;
 import com.rest.api.repository.IMedicacao;
 import com.rest.api.repository.ITratamento;
@@ -34,7 +33,7 @@ public class TratamentoResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Tratamento>> listar() {
-		return ResponseEntity.ok(tratamentos.findAll());
+		return ResponseEntity.ok(tratamentos.findAllByOrderByCodigoAsc());
 	}
 	
 	@GetMapping(value = "/{codigo}")

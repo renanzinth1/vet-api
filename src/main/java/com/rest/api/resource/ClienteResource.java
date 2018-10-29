@@ -34,7 +34,7 @@ public class ClienteResource {
 	@GetMapping
 	public ResponseEntity<List<Cliente>> listar() {
 
-		List<Cliente> listaCliente = clientes.findAll();
+		List<Cliente> listaCliente = clientes.findAllByOrderByNomeAsc();
 
 		return ResponseEntity.ok(listaCliente);
 	}

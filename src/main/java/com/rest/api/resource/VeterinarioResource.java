@@ -29,7 +29,7 @@ public class VeterinarioResource {
 	@GetMapping
 	public ResponseEntity<List<Veterinario>> listar() {
 
-		List<Veterinario> listaVeterinario = veterinarios.findAll();
+		List<Veterinario> listaVeterinario = veterinarios.findAllByOrderByNomeAsc();
 
 		return ResponseEntity.ok(listaVeterinario);
 	}

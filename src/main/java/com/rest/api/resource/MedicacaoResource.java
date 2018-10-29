@@ -28,7 +28,7 @@ public class MedicacaoResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Medicacao>> listar() {
-		return ResponseEntity.ok(medicacoes.findAll());
+		return ResponseEntity.ok(medicacoes.findAllByOrderByCodigoAsc());
 	}
 	
 	@GetMapping(value = "/{codigo}")

@@ -11,5 +11,9 @@ public interface ISubEspecie extends JpaRepository<SubEspecie, Long> {
 	public List<SubEspecie> findAllByNomeContainingIgnoreCaseOrderByNomeAsc(String nome);
 
 	public boolean existsByNome(String nome);
+	
+	public List<SubEspecie> findAllByOrderByCodigoAsc();
 
+	public List<SubEspecie> findAllByOrderByNomeAsc();
+	
 }

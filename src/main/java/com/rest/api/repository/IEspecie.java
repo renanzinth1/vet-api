@@ -11,5 +11,7 @@ public interface IEspecie extends JpaRepository<Especie, Long> {
 	public List<Especie> findAllByNomeContainingIgnoreCaseOrderByNomeAsc(String nome);
 
 	public boolean existsByNome(String nome);
+	
+	public List<Especie> findAllByOrderByNomeAsc();
 
 }

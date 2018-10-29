@@ -15,4 +15,8 @@ public interface ICliente extends JpaRepository<Cliente, Long> {
 
 	public List<Cliente> findAllByNomeContainingIgnoreCaseOrderByNomeAsc(String nome);
 	
+	public List<Cliente> findAllByOrderByCodigoAsc();
+	
+	public List<Cliente> findAllByOrderByNomeAsc();
+	
 }

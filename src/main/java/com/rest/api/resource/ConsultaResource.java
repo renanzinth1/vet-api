@@ -34,7 +34,7 @@ public class ConsultaResource {
 	@GetMapping
 	public ResponseEntity<List<Consulta>> listar() {
 		
-		List<Consulta> listaConsulta = consultas.findAll();
+		List<Consulta> listaConsulta = consultas.findAllByOrderByCodigoAsc();
 		
 		return ResponseEntity.ok(listaConsulta);
 	}

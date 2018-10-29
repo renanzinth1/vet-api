@@ -29,7 +29,7 @@ public class SubEspecieResource {
 	@GetMapping
 	public ResponseEntity<List<SubEspecie>> listar() {
 		
-		List<SubEspecie> listaSubEspecie = subespecies.findAll();
+		List<SubEspecie> listaSubEspecie = subespecies.findAllByOrderByNomeAsc();
 		
 		return ResponseEntity.ok(listaSubEspecie);
 	}

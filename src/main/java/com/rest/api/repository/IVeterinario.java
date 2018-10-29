@@ -14,5 +14,9 @@ public interface IVeterinario extends JpaRepository<Veterinario, Long> {
 	public boolean existsByCfmv(String cfmv);
 
 	public List<Veterinario> findAllByNomeContainingIgnoreCaseOrderByNomeAsc(String nome);
+	
+	public List<Veterinario> findAllByOrderByCodigoAsc();
+	
+	public List<Veterinario> findAllByOrderByNomeAsc();
 
 }
