@@ -83,9 +83,6 @@ public class ConsultaResource {
 	@PostMapping
 	public ResponseEntity<Void> salvar(@RequestBody Consulta consulta) {
 		
-		if(consultas.existsById(consulta.getCodigo()))
-			return ResponseEntity.badRequest().build();
-		
 		consulta = consultas.save(consulta);
 		
 		URI uri = ServletUriComponentsBuilder

@@ -17,6 +17,8 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity(name = "Tratamentos")
 public class Tratamento {
@@ -35,6 +37,7 @@ public class Tratamento {
 	private Consulta consulta;
 	
 	@JsonIgnoreProperties("tratamento")
+	@JsonProperty(access = Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "tratamento", targetEntity = Medicacao.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Medicacao> listaMedicacoes;
 
@@ -42,10 +45,12 @@ public class Tratamento {
 		super();
 	}
 
-	public Tratamento(Long codigo, String resumo, List<Medicacao> listaMedicacoes) {
+	public Tratamento(Long codigo, @Length(min = 15, max = 300) String resumo, Consulta consulta,
+			List<Medicacao> listaMedicacoes) {
 		super();
 		this.codigo = codigo;
 		this.resumo = resumo;
+		this.consulta = consulta;
 		this.listaMedicacoes = listaMedicacoes;
 	}
 
@@ -71,6 +76,14 @@ public class Tratamento {
 
 	public void setListaMedicacoes(List<Medicacao> listaMedicacoes) {
 		this.listaMedicacoes = listaMedicacoes;
+	}
+
+	public Consulta getConsulta() {
+		return consulta;
+	}
+
+	public void setConsulta(Consulta consulta) {
+		this.consulta = consulta;
 	}
 
 	@Override
