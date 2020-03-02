@@ -93,17 +93,19 @@ public class VeterinarioResource {
 			Optional<Veterinario> vet = veterinarios.findByCfmv(veterinario.getCfmv());
 			if (vet.isPresent()) {
 				if (vet.get().getCfmv().equals(veterinario.getCfmv()) && vet.get().getCodigo().equals(codigo)) {
-					if (veterinario.getCfmv().length() == 4) {
-						veterinario.setCodigo(codigo);
-						return ResponseEntity.accepted().body(veterinarios.save(veterinario));
-					} else {
-						return ResponseEntity.badRequest().build();
-					}
 				} else {
 					return ResponseEntity.badRequest().build();
 				}
 			}
+			
+			if (veterinario.getCfmv().length() == 4) {
+				veterinario.setCodigo(codigo);
+				return ResponseEntity.accepted().body(veterinarios.save(veterinario));
+			} else {
+				return ResponseEntity.badRequest().build();
+			}
 		}
+		
 		return ResponseEntity.notFound().build();
 	}
 
