@@ -121,17 +121,21 @@ public class ClienteResource {
 
 	@PutMapping(value = "/{codigo}")
 	public ResponseEntity<Cliente> editar(@PathVariable("codigo") Long codigo, @RequestBody Cliente cliente) {
-
 		if (clientes.existsById(codigo)) {
-			if (cliente.getCpf().length() == 11) {
-				cliente.setCodigo(codigo);
-				
-				return ResponseEntity.accepted().body(clientes.save(cliente));
-			} else {
-				return ResponseEntity.badRequest().build();
+			Optional<Cliente> client = clientes.findByCpf(cliente.getCpf());
+			if (client.isPresent()) {
+				if (client.get().getCpf().equals(cliente.getCpf()) && client.get().getCodigo().equals(codigo)) {
+					if (cliente.getCpf().length() == 11) {
+						cliente.setCodigo(codigo);
+						return ResponseEntity.accepted().body(clientes.save(cliente));
+					} else {
+						return ResponseEntity.badRequest().build();
+					}
+				} else {
+					return ResponseEntity.badRequest().build();
+				}
 			}
 		}
-
 		return ResponseEntity.notFound().build();
 	}
 
