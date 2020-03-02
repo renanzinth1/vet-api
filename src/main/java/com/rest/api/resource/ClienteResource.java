@@ -102,7 +102,7 @@ public class ClienteResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> salvar(@RequestBody Cliente cliente) {
+	public ResponseEntity<Cliente> salvar(@RequestBody Cliente cliente) {
 
 		if (clientes.existsByCpf(cliente.getCpf()))
 			return ResponseEntity.badRequest().build();
@@ -121,7 +121,7 @@ public class ClienteResource {
 
 	@PutMapping(value = "/{codigo}")
 	public ResponseEntity<Cliente> editar(@PathVariable("codigo") Long codigo, @RequestBody Cliente cliente) {
-
+		
 		if (clientes.existsById(codigo)) {
 			Optional<Cliente> client = clientes.findByCpf(cliente.getCpf());
 			if (client.isPresent()) {
@@ -145,7 +145,7 @@ public class ClienteResource {
 	@DeleteMapping(value = "/{codigo}")
 	public ResponseEntity<Void> excluir(@PathVariable("codigo") Long codigo) {
 
-		if (clientes.existsById(codigo)) {
+		if(clientes.existsById(codigo)) {
 			clientes.deleteById(codigo);
 
 			return ResponseEntity.noContent().build();
